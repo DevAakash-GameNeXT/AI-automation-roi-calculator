@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Calculate your AI Automation ROI with our futuristic purple-themed tool. See savings and efficiency gains in your chosen currency.">
+    <meta name="keywords" content="AI Automation, ROI Calculator, Purple Theme, Currency Selection, Efficiency">
+    <title>AI Automation ROI Calculator</title>
+    <style>
+        /* General Styles */
+        body {
+            background-color: #0f0f0f;
+            color: #ffffff;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        .main-content {
+            grid-column: 2 / 3;
+        }
+
+        /* Header */
+        header h1 {
+            text-align: center;
+            font-size: 2.5em;
+            text-shadow: 0 0 15px #a855f7, 0 0 25px #9333ea;
+            animation: glowPulse 3s infinite alternate, colorTransition 15s infinite;
+        }
+
+        /* Introduction Section */
+        .introduction {
+            margin-bottom: 40px;
+            text-align: center;
+            border: 2px solid #a855f7;
+            padding: 20px;
+            box-shadow: 0 0 20px #6b21a8;
+            animation: borderColorTransition 15s infinite;
+        }
+        .introduction h2 {
+            font-size: 2em;
+            animation: colorTransition 15s infinite;
+        }
+        .introduction p {
+            font-size: 1.1em;
+            text-shadow: 0 0 5px #9333ea;
+        }
+        .highlight {
+            color: #7e22ce;
+            font-weight: bold;
+            animation: colorTransition 15s infinite;
+        }
+
+        /* Calculator Section */
+        form {
+            display: grid;
+            gap: 20px;
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: #1a1a1a;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px #a855f7;
+            animation: borderColorTransition 15s infinite;
+        }
+        label {
+            font-size: 1.2em;
+            text-shadow: 0 0 5px #a855f7;
+            animation: colorTransition 15s infinite;
+        }
+        input[type="number"] {
+            padding: 10px;
+            font-size: 1em;
+            background-color: #2a2a2a;
+            color: #ffffff;
+            border: 2px solid #a855f7;
+            border-radius: 5px;
+            box-shadow: 0 0 10px #9333ea;
+            transition: all 0.3s ease;
+            animation: borderColorTransition 15s infinite;
+        }
+        input[type="number"]:hover,
+        input[type="number"]:focus {
+            box-shadow: 0 0 20px #6b21a8;
+            transform: scale(1.02);
+        }
+
+        /* Currency Dropdown */
+        .currency-select {
+            position: relative;
+        }
+        #currency-button {
+            padding: 10px 20px;
+            font-size: 1em;
+            background-color: #2a2a2a;
+            color: #ffffff;
+            border: 2px solid #a855f7;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 0 10px #9333ea;
+            transition: all 0.3s ease;
+            animation: buttonColorTransition 15s infinite;
+        }
+        #currency-button:hover {
+            box-shadow: 0 0 20px #6b21a8;
+            transform: scale(1.05);
+        }
+        #currency-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background-color: #1a1a1a;
+            border: 2px solid #a855f7;
+            border-radius: 5px;
+            box-shadow: 0 0 15px #9333ea;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            animation: borderColorTransition 15s infinite;
+        }
+        #currency-dropdown.open {
+            max-height: 300px;
+        }
+        #currency-search {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            background-color: #2a2a2a;
+            color: #ffffff;
+            border: none;
+            border-bottom: 1px solid #a855f7;
+            box-shadow: 0 0 5px #9333ea;
+        }
+        #currency-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            max-height: 250px;
+            overflow-y: auto;
+        }
+        #currency-list li {
+            padding: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, text-shadow 0.3s ease;
+        }
+        #currency-list li:hover {
+            background-color: #2a2a2a;
+            text-shadow: 0 0 10px #6b21a8;
+        }
+
+        /* Calculate Button */
+        #calculate-button {
+            padding: 10px 20px;
+            font-size: 1em;
+            background-color: #a855f7;
+            color: #0f0f0f;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 0 15px #9333ea;
+            transition: all 0.3s ease;
+            animation: buttonColorTransition 15s infinite;
+        }
+        #calculate-button:hover {
+            box-shadow: 0 0 25px #6b21a8;
+            transform: scale(1.05);
+            background-color: #9333ea;
+        }
+
+        /* Results Section */
+        #result {
+            text-align: center;
+            font-size: 1.5em;
+            margin-top: 20px;
+            text-shadow: 0 0 10px #a855f7;
+            animation: colorTransition 15s infinite;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        #result.show {
+            opacity: 1;
+        }
+        #chart-container {
+            margin-top: 20px;
+            height: 300px;
+            display: none;
+            border: 2px solid #a855f7;
+            border-radius: 10px;
+            box-shadow: 0 0 15px #9333ea;
+            animation: borderColorTransition 15s infinite;
+        }
+
+        /* Ad Space */
+        .ad-space {
+            padding: 20px;
+            border: 2px solid #a855f7;
+            text-align: center;
+            font-size: 1.2em;
+            box-shadow: 0 0 15px #9333ea;
+            background-color: #1a1a1a;
+            height: 600px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: box-shadow 0.3s ease;
+            animation: borderColorTransition 15s infinite;
+        }
+        .ad-space:hover {
+            box-shadow: 0 0 25px #6b21a8;
+        }
+        .ad-left {
+            grid-column: 1 / 2;
+        }
+        .ad-right {
+            grid-column: 3 / 4;
+        }
+
+        /* Call-to-Action */
+        .cta {
+            text-align: center;
+            margin-top: 20px;
+            padding: 15px;
+            border: 2px dashed #a855f7;
+            box-shadow: 0 0 10px #9333ea;
+            animation: borderColorTransition 15s infinite;
+        }
+        .cta a {
+            color: #a855f7;
+            text-decoration: none;
+            font-weight: bold;
+            animation: colorTransition 15s infinite;
+        }
+        .cta a:hover {
+            text-shadow: 0 0 15px #6b21a8;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 0.8em;
+            text-shadow: 0 0 5px #a855f7;
+            grid-column: 1 / 4;
+            animation: colorTransition 15s infinite;
+        }
+
+        /* Background Animations */
+        .bg-animations {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+        .bg-animation {
+            position: absolute;
+            background-color: #a855f7;
+            border-radius: 50%;
+            box-shadow: 0 0 15px #9333ea;
+            animation: moveAndGlow 15s infinite ease-in-out, bgColorTransition 15s infinite;
+        }
+        .bg-animation:nth-child(1) { width: 20px; height: 20px; top: 10%; left: 20%; animation-duration: 15s; }
+        .bg-animation:nth-child(2) { width: 15px; height: 15px; top: 30%; left: 50%; animation-duration: 20s; animation-delay: 2s; }
+        .bg-animation:nth-child(3) { width: 18px; height: 18px; top: 50%; left: 70%; animation-duration: 25s; animation-delay: 4s; }
+        .bg-animation:nth-child(4) { width: 12px; height: 12px; top: 70%; left: 30%; animation-duration: 18s; animation-delay: 6s; }
+        .bg-animation:nth-child(5) { width: 16px; height: 16px; top: 90%; left: 80%; animation-duration: 22s; animation-delay: 8s; }
+
+        /* Animations */
+        @keyframes moveAndGlow {
+            0% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(50vw, 50vh) scale(1.3); }
+            50% { transform: translate(80vw, 20vh) scale(0.9); }
+            75% { transform: translate(20vw, 70vh) scale(1.2); }
+            100% { transform: translate(0, 0) scale(1); }
+        }
+        @keyframes glowPulse {
+            0% { text-shadow: 0 0 15px #a855f7, 0 0 25px #9333ea; }
+            100% { text-shadow: 0 0 20px #6b21a8, 0 0 35px #7e22ce; }
+        }
+        @keyframes colorTransition {
+            0% { color: #a855f7; text-shadow: 0 0 10px #a855f7; }
+            20% { color: #9333ea; text-shadow: 0 0 10px #9333ea; }
+            40% { color: #7e22ce; text-shadow: 0 0 10px #7e22ce; }
+            60% { color: #6b21a8; text-shadow: 0 0 10px #6b21a8; }
+            80% { color: #581c87; text-shadow: 0 0 10px #581c87; }
+            100% { color: #a855f7; text-shadow: 0 0 10px #a855f7; }
+        }
+        @keyframes borderColorTransition {
+            0% { border-color: #a855f7; box-shadow: 0 0 15px #a855f7; }
+            20% { border-color: #9333ea; box-shadow: 0 0 15px #9333ea; }
+            40% { border-color: #7e22ce; box-shadow: 0 0 15px #7e22ce; }
+            60% { border-color: #6b21a8; box-shadow: 0 0 15px #6b21a8; }
+            80% { border-color: #581c87; box-shadow: 0 0 15px #581c87; }
+            100% { border-color: #a855f7; box-shadow: 0 0 15px #a855f7; }
+        }
+        @keyframes buttonColorTransition {
+            0% { background-color: #a855f7; box-shadow: 0 0 15px #a855f7; }
+            20% { background-color: #9333ea; box-shadow: 0 0 15px #9333ea; }
+            40% { background-color: #7e22ce; box-shadow: 0 0 15px #7e22ce; }
+            60% { background-color: #6b21a8; box-shadow: 0 0 15px #6b21a8; }
+            80% { background-color: #581c87; box-shadow: 0 0 15px #581c87; }
+            100% { background-color: #a855f7; box-shadow: 0 0 15px #a855f7; }
+        }
+        @keyframes bgColorTransition {
+            0% { background-color: #a855f7; }
+            20% { background-color: #9333ea; }
+            40% { background-color: #7e22ce; }
+            60% { background-color: #6b21a8; }
+            80% { background-color: #581c87; }
+            100% { background-color: #a855f7; }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            .main-content, .ad-left, .ad-right, footer {
+                grid-column: 1 / 2;
+            }
+            .ad-space {
+                height: 200px;
+                margin: 20px 0;
+            }
+        }
+        @media (max-width: 768px) {
+            header h1 { font-size: 2em; }
+            form { max-width: 100%; }
+            #result { font-size: 1.2em; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Animations -->
+    <div class="bg-animations">
+        <div class="bg-animation"></div>
+        <div class="bg-animation"></div>
+        <div class="bg-animation"></div>
+        <div class="bg-animation"></div>
+        <div class="bg-animation"></div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Left Ad Space -->
+        <div class="ad-space ad-left">Advertisement Left</div>
+
+        <!-- Main Content Area -->
+        <div class="main-content">
+            <header>
+                <h1>AI Automation ROI Calculator</h1>
+            </header>
+            <main>
+                <!-- Introduction Section -->
+                <section class="introduction">
+                    <h2>Discover AI Efficiency</h2>
+                    <p>Calculate your <span class="highlight">ROI</span> with our purple-themed tool. See how automation saves costs in your preferred currency!</p>
+                </section>
+                <!-- Calculator Section -->
+                <form id="calculator-form">
+                    <label for="automation-cost">Automation Cost</label>
+                    <input type="number" id="automation-cost" placeholder="e.g., 10000" step="0.01">
+                    <label for="labor-savings">Annual Labor Savings</label>
+                    <input type="number" id="labor-savings" placeholder="e.g., 5000" step="0.01">
+                    <label for="efficiency-gain">Efficiency Gain (%)</label>
+                    <input type="number" id="efficiency-gain" placeholder="e.g., 20" step="0.01">
+                    <div class="currency-select">
+                        <button type="button" id="currency-button">USD - $</button>
+                        <div id="currency-dropdown">
+                            <input type="text" id="currency-search" placeholder="Search currency">
+                            <ul id="currency-list"></ul>
+                        </div>
+                    </div>
+                    <button type="button" id="calculate-button">Calculate ROI</button>
+                </form>
+                <!-- Results Section -->
+                <div id="result"></div>
+                <div id="chart-container">
+                    <canvas id="roi-chart"></canvas>
+                </div>
+                <!-- Call-to-Action -->
+                <section class="cta">
+                    <p>Ready to optimize? Explore top <a href="https://example.com/ai-solutions" target="_blank" rel="noopener">AI solutions</a> now!</p>
+                </section>
+            </main>
+            <footer>
+                <p>© 2025 AI Automation ROI Calculator By GameNeXT</p>
+            </footer>
+        </div>
+
+        <!-- Right Ad Space -->
+        <div class="ad-space ad-right">Advertisement Right</div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Currency List
+        const currencies = [
+            { code: "USD", symbol: "$" },
+            { code: "EUR", symbol: "€" },
+            { code: "GBP", symbol: "£" },
+            { code: "JPY", symbol: "¥" },
+            { code: "AUD", symbol: "A$" },
+            { code: "CAD", symbol: "C$" },
+            { code: "CHF", symbol: "Fr" },
+            { code: "CNY", symbol: "¥" },
+            { code: "INR", symbol: "₹" },
+            { code: "BRL", symbol: "R$" },
+            // Simulate additional currencies
+            ...Array.from({ length: 50 }, (_, i) => ({
+                code: `CUR${i + 1}`,
+                symbol: `C${i + 1}`
+            }))
+        ];
+
+        // Populate Currency Dropdown
+        const currencyList = document.getElementById('currency-list');
+        currencies.forEach(currency => {
+            const li = document.createElement('li');
+            li.textContent = `${currency.code} - ${currency.symbol}`;
+            li.dataset.code = currency.code;
+            li.dataset.symbol = currency.symbol;
+            currencyList.appendChild(li);
+        });
+
+        // Dropdown Functionality
+        const currencyButton = document.getElementById('currency-button');
+        const currencyDropdown = document.getElementById('currency-dropdown');
+        const currencySearch = document.getElementById('currency-search');
+        const currencySelect = document.querySelector('.currency-select');
+        let selectedSymbol = '$'; // Default to USD
+
+        currencyButton.addEventListener('click', () => {
+            currencyDropdown.classList.toggle('open');
+        });
+
+        currencySearch.addEventListener('input', () => {
+            const searchTerm = currencySearch.value.toLowerCase();
+            const items = currencyList.querySelectorAll('li');
+            items.forEach(item => {
+                const text = item.textContent.toLowerCase();
+                item.style.display = text.includes(searchTerm) ? 'block' : 'none';
+            });
+        });
+
+        currencyList.addEventListener('click', (e) => {
+            if (e.target.tagName === 'LI') {
+                selectedSymbol = e.target.dataset.symbol;
+                currencyButton.textContent = `${e.target.dataset.code} - ${e.target.dataset.symbol}`;
+                currencyDropdown.classList.remove('open');
+            }
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!currencySelect.contains(e.target)) {
+                currencyDropdown.classList.remove('open');
+            }
+        });
+
+        // Calculation Logic
+        const calculateButton = document.getElementById('calculate-button');
+        const resultDiv = document.getElementById('result');
+        const chartContainer = document.getElementById('chart-container');
+        let roiChart;
+
+        calculateButton.addEventListener('click', () => {
+            const automationCost = parseFloat(document.getElementById('automation-cost').value);
+            const laborSavings = parseFloat(document.getElementById('labor-savings').value);
+            const efficiencyGain = parseFloat(document.getElementById('efficiency-gain').value);
+
+            if (isNaN(automationCost) || isNaN(laborSavings) || isNaN(efficiencyGain) || automationCost <= 0) {
+                resultDiv.textContent = 'Please enter valid positive numbers.';
+                resultDiv.style.opacity = '0';
+                setTimeout(() => { resultDiv.style.opacity = '1'; }, 100);
+                chartContainer.style.display = 'none';
+                return;
+            }
+
+            const efficiencyContribution = (efficiencyGain / 100) * automationCost * 0.1;
+            const totalSavings = laborSavings + efficiencyContribution;
+            const roi = (totalSavings / automationCost) * 100;
+
+            resultDiv.style.opacity = '0';
+            setTimeout(() => {
+                resultDiv.textContent = `Your ROI: ${roi.toFixed(2)}% | Total Savings: ${selectedSymbol}${totalSavings.toFixed(2)}`;
+                resultDiv.style.opacity = '1';
+            }, 100);
+
+            chartContainer.style.display = 'block';
+            if (roiChart) roiChart.destroy();
+            const ctx = document.getElementById('roi-chart').getContext('2d');
+            roiChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Automation Cost', 'Labor Savings', 'Efficiency Contribution'],
+                    datasets: [{
+                        label: `Amount (${selectedSymbol})`,
+                        data: [automationCost, laborSavings, efficiencyContribution],
+                        backgroundColor: ['#a855f7', '#9333ea', '#7e22ce'],
+                        borderColor: ['#6b21a8', '#581c87', '#9333ea'],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    animation: { duration: 1000, easing: 'easeInOutQuad' },
+                    scales: { y: { beginAtZero: true } }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
